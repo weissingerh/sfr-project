@@ -1,4 +1,4 @@
-package kafkamusicproducer;
+package kafkamusicproducer.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +20,13 @@ public class TopicProducer {
 
     public void sendCharts(String message){
         log.info("Payload: {}", message);
+        System.out.println("Payload " +message);
         kafkaTemplate.send(topicCharts, message);
     }
 
     public void sendLyrics(String message){
         log.info("Payload: {}", message);
+        System.out.println("Payload " +message);
         kafkaTemplate.send(topicLyrics, message);
     }
 }

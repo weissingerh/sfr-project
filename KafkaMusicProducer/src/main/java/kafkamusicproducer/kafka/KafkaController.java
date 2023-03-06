@@ -1,5 +1,6 @@
-package kafkamusicproducer;
+package kafkamusicproducer.kafka;
 
+import kafkamusicproducer.apis.LastFmApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,14 @@ public class KafkaController {
 
     @GetMapping("/charts")
     public void send1(){
-        topicProducer.sendCharts("sent my first charts");
+        String artists = new LastFmApi().getArtists();
+        System.out.println(artists);
+        topicProducer.sendCharts(artists);
     }
 
     @GetMapping("/lyrics")
     public void send2(){
-        topicProducer.sendLyrics("sent my first lyrics");
+        String tracks = new LastFmApi().getTracks();
+        topicProducer.sendLyrics(tracks);
     }
 }
