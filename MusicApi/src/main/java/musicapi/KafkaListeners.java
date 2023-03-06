@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaListeners {
 
-    @Value("${topic.name.charts")
+    @Value("${topic.name.charts}")
     private String topicCharts;
 
-    @Value("${topic.name.lyrics")
+    @Value("${topic.name.lyrics}")
     private String topicLyrics;
 
-    @KafkaListener(topics = "${topic.name.charts}", groupId = "charts")
+    @KafkaListener(topics = "${topic.name.charts}", groupId = "music")
     public void consumeCharts(ConsumerRecord<String, String> payload){
         log.info("Topic: {}", topicCharts);
         log.info("key: {}", payload.key());
@@ -28,7 +28,17 @@ public class KafkaListeners {
 
     }
 
-    @KafkaListener(topics = "${topic.name.lyrics}", groupId = "charts")
+    @KafkaListener(topics = "${topic.name.charts}", groupId = "music")
+    public void consumeCharts1(ConsumerRecord<String, String> payload){
+        log.info("Topic: {}", topicCharts);
+        log.info("key: {}", payload.key());
+        log.info("Headers: {}", payload.headers());
+        log.info("Partion: {}", payload.partition());
+        log.info("Value: {}", payload.value());
+
+    }
+
+    @KafkaListener(topics = "${topic.name.lyrics}", groupId = "music")
     public void consumeLyrics(ConsumerRecord<String, String> payload){
         log.info("Topic: {}", topicLyrics);
         log.info("key: {}", payload.key());
