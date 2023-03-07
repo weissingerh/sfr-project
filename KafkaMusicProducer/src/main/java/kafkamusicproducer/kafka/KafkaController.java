@@ -1,7 +1,9 @@
 package kafkamusicproducer.kafka;
 
 import kafkamusicproducer.apis.LastFmApi;
+import kafkamusicproducer.apis.MusixmatchApi;
 import lombok.RequiredArgsConstructor;
+import org.jmusixmatch.MusixMatchException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +22,9 @@ public class KafkaController {
     }
 
     @GetMapping("/lyrics")
-    public void send2(){
-        String tracks = new LastFmApi().getTracks();
-        topicProducer.sendLyrics(tracks);
+    public void send2() throws MusixMatchException {
+        String lyrics = new MusixmatchApi().getLyrics("As It Was", "Harry Styles");
+        System.out.println(lyrics);
+        topicProducer.sendLyrics(lyrics);
     }
 }
