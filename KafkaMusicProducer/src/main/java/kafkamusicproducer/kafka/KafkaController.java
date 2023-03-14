@@ -3,7 +3,6 @@ package kafkamusicproducer.kafka;
 import kafkamusicproducer.apis.LastFmApi;
 import kafkamusicproducer.apis.MusixmatchApi;
 import lombok.RequiredArgsConstructor;
-import org.jmusixmatch.MusixMatchException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class KafkaController {
     private final TopicProducer topicProducer;
     private final LastFmApi lastFmApi;
+
+    private final MusixmatchApi musixmatchApi;
     @GetMapping("/charts")
     public void send1() throws Exception {
         String tracks = lastFmApi.getTracks();
@@ -23,9 +24,10 @@ public class KafkaController {
     }
 
     @GetMapping("/lyrics")
-    public void send2() throws MusixMatchException {
+    public void send2() throws Exception {
         String lyrics = new MusixmatchApi().getLyrics("As It Was", "Harry Styles");
         System.out.println(lyrics);
-        topicProducer.sendLyrics(lyrics);
+        byte[] serializedData = AvroSerializer.fromJsonToAvro(lyrics, musixmatchApi.schema);
+        topicProducer.sendLyrics(serializedData);
     }
 }

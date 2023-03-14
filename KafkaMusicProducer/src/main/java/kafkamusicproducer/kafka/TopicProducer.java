@@ -16,16 +16,13 @@ public class TopicProducer {
     @Value("${topic.name.lyrics}")
     private String topicLyrics;
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-    private final KafkaTemplate<String, byte[]> kafkaTemplateByte;
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void sendCharts(byte[] message){
-        kafkaTemplateByte.send(topicCharts, message);
+        kafkaTemplate.send(topicCharts, message);
     }
 
-    public void sendLyrics(String message) {
-        log.info("Payload: {}", message);
-        System.out.println("Payload " +message);
+    public void sendLyrics(byte[] message) {
         kafkaTemplate.send(topicLyrics, message);
     }
 }
