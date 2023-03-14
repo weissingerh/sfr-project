@@ -2,7 +2,6 @@ package kafkamusicproducer.apis;
 
 import org.jmusixmatch.MusixMatch;
 import org.jmusixmatch.MusixMatchException;
-import org.jmusixmatch.entity.lyrics.Lyrics;
 import org.jmusixmatch.entity.track.Track;
 import org.jmusixmatch.entity.track.TrackData;
 import org.springframework.stereotype.Component;
