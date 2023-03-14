@@ -17,14 +17,13 @@ public class TopicProducer {
     private String topicLyrics;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, byte[]> kafkaTemplateByte;
 
-    public void sendCharts(String message){
-        log.info("Payload: {}", message);
-        System.out.println("Payload " +message);
-        kafkaTemplate.send(topicCharts, message);
+    public void sendCharts(byte[] message){
+        kafkaTemplateByte.send(topicCharts, message);
     }
 
-    public void sendLyrics(String message){
+    public void sendLyrics(String message) {
         log.info("Payload: {}", message);
         System.out.println("Payload " +message);
         kafkaTemplate.send(topicLyrics, message);

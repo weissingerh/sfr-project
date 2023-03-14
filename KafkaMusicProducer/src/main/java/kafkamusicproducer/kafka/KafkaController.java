@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/kafka")
 public class KafkaController {
     private final TopicProducer topicProducer;
-
+    private final LastFmApi lastFmApi;
     @GetMapping("/charts")
-    public void send1(){
-        String artists = new LastFmApi().getArtists();
-        System.out.println(artists);
-        topicProducer.sendCharts(artists);
+    public void send1() throws Exception {
+        String tracks = lastFmApi.getTracks();
+        byte[] avroByteArray = AvroSerializer.fromJsonToAvro(tracks, lastFmApi.schema);
+        System.out.println(tracks);
+        topicProducer.sendCharts(avroByteArray);
     }
 
     @GetMapping("/lyrics")

@@ -1,7 +1,6 @@
 package kafkamusicproducer;
 
-import kafkamusicproducer.kafka.KafkaController;
-import kafkamusicproducer.kafka.TopicProducer;
+import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.EnableKafka;
