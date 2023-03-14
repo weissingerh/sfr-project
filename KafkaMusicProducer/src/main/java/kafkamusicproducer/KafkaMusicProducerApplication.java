@@ -23,7 +23,7 @@ public class KafkaMusicProducerApplication {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				new RestTemplate().getForObject("http://localhost:8080/kafka/charts", String.class);
+				new RestTemplate().getForObject("http://localhost:8080/kafka/charts", ByteArraySerializer.class);
 				new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics", String.class);
 			}
 		}, 10000, 60000);
