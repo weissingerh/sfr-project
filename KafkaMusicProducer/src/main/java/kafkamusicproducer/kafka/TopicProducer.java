@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TopicProducer {
 
-    @Value("${topic.name.charts}")
+    @Value("${topic.name.charts.artists}")
     private String topicCharts;
     @Value("${topic.name.lyrics}")
     private String topicLyrics;

@@ -1,4 +1,4 @@
-package musicapi;
+package kafkamusicproducer.kafka;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -13,12 +13,17 @@ import java.util.Map;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Value(value = "${spring.kafka.consumer.bootstrap-servers}")
+    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapAddress;
 
-    @Value("${topic.name.charts}")
+    @Value("${topic.name.charts.artists}")
     private String topicCharts;
-
+    @Value("${topic.name.charts.tracks}")
+    private String topicTracks;
+    @Value("${topic.name.charts.tracks.aggregated}")
+    private String topicTracksAggregated;
+    @Value("${topic.name.charts.tracks.aggregated.average}")
+    private String topicTracksAggregatedAverage;
     @Value("${topic.name.lyrics}")
     private String topicLyrics;
 
@@ -33,7 +38,18 @@ public class KafkaTopicConfig {
     public NewTopic topArtists() {
         return new NewTopic(topicCharts, 3, (short) 1);
     }
-
+    @Bean
+    public NewTopic topTracks() {
+        return new NewTopic(topicTracks, 3, (short) 1);
+    }
+    @Bean
+    public NewTopic topTracksAggregated() {
+        return new NewTopic(topicTracksAggregated, 3, (short) 1);
+    }
+    @Bean
+    public NewTopic topTracksAggregatedAverage() {
+        return new NewTopic(topicTracksAggregatedAverage, 3, (short) 1);
+    }
     @Bean
     public NewTopic lyrics() {
         return new NewTopic( topicLyrics, 3, (short) 1);
