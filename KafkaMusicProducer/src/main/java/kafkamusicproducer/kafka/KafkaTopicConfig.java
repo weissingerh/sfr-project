@@ -2,6 +2,9 @@ package kafkamusicproducer.kafka;
 
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,13 +12,15 @@ import org.springframework.kafka.core.KafkaAdmin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 public class KafkaTopicConfig {
 
     @Value(value = "${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapAddress;
-
+    @Value("${application.id}")
+    private String applicationId;
     @Value("${topic.name.charts.artists}")
     private String topicCharts;
     @Value("${topic.name.charts.tracks}")

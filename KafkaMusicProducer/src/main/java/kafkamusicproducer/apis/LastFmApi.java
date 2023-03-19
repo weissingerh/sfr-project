@@ -21,7 +21,8 @@ public class LastFmApi {
     public String getTracks() {
         String url = String.format(getTracksUrl, apiKey);
         String response = new RestTemplate().getForObject(url, String.class);
-        return this.getModifiedTracks(response);
+        return response;
+        //return this.getModifiedTracks(response);
     }
 
     private String getModifiedTracks(String response) {
