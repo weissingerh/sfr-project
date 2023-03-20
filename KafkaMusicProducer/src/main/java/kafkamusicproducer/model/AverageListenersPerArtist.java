@@ -9,5 +9,6 @@ public class AverageListenersPerArtist {
 
     private String artist;
     private List<Integer> averageListeners;
+    private List<Integer> averagePlaycount;
     private int average;
 }

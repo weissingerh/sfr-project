@@ -1,11 +1,16 @@
 package kafkamusicproducer.util;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import kafkamusicproducer.serdes.MusicSerdes;
+import kafkamusicproducer.serdes.CustomMusicSerdes;
+import kafkamusicproducer.serdes.MusicSerde;
+import kafkamusicproducer.serializers.JsonDeserializer;
+import kafkamusicproducer.serializers.JsonSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.StreamsConfig;
 
 import java.util.Map;
@@ -16,8 +21,6 @@ import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHE
 import static java.util.stream.Collectors.toMap;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG;
 import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG;
-import static org.apache.kafka.common.serialization.Serdes.Double;
-import static org.apache.kafka.common.serialization.Serdes.Long;
 import static org.apache.kafka.streams.StreamsConfig.*;
 
 public class ConfigHandler {
@@ -26,11 +29,20 @@ public class ConfigHandler {
     public Properties loadConsumerJsonConfig() {
         Properties config = loadConfig();
         config.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        //config.put(VALUE_DESERIALIZER_CLASS_CONFIG, .class);
-        //config.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Long().getClass());
-        config.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, MusicSerdes.averageSongs().getClass());
+        config.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        config.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        config.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, MusicSerde.class);
         config.put("specific.avro.reader", true);
         return config;
+    }
+
+    public Properties loadProducerJsonConfig() {
+        final Properties properties = loadConfig();
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class);
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                JsonSerializer.class);
+        return properties;
     }
 
     protected Properties loadConfig() {

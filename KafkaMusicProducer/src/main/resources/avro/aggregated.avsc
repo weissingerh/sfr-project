@@ -7,7 +7,7 @@
     "name" : "artist",
     "type" : "string"
   }, {
-    "name" : "count",
+    "name" : "averagePlaycountPerListener",
     "type" : "int"
   } ]
 }

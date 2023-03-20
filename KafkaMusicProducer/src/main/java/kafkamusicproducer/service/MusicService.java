@@ -2,7 +2,7 @@ package kafkamusicproducer.service;
 
 import at.technikum.Track;
 import kafkamusicproducer.model.AverageListenersPerArtist;
-import kafkamusicproducer.serdes.MusicSerdes;
+import kafkamusicproducer.serdes.MusicAverageSerde;
 import kafkamusicproducer.util.ConfigHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.Serdes;
@@ -32,12 +32,16 @@ public class MusicService {
                 .groupBy((key, value) -> value.getArtist())
                 .aggregate(this::getAverageTopSongs, (key, value, aggregator) -> {
                     aggregator.getAverageListeners().add(value.getListeners());
+                    aggregator.getAveragePlaycount().add(value.getPlaycount());
                     setNewAverage(aggregator);
                     return aggregator;
                 }, Materialized.<String, AverageListenersPerArtist, KeyValueStore<Bytes, byte[]>>as("topTracksAggregated")
-                        .withValueSerde(MusicSerdes.averageSongs()))
+                        .withKeySerde(Serdes.String())
+                        .withValueSerde(new MusicAverageSerde()))
+//                        .withValueSerde(MusicSerdes.averageSongs()))
                 .toStream()
-                .to("topTracksAveragePlaysPerListener", Produced.with(Serdes.String(), MusicSerdes.averageSongs()));
+                .mapValues(this::getAverage)
+                .to("topTracksAveragePlaysPerListener", Produced.with(Serdes.String(), Serdes.String()));
 
         final Topology topology = streamsBuilder.build();
         final KafkaStreams kafkaStreams = new KafkaStreams(topology, properties);
@@ -46,17 +50,28 @@ public class MusicService {
 
     }
 
+    public String getAverage(final AverageListenersPerArtist average) {
+        final int avg = average.getAverage();
+        return Integer.toString(avg);
+    }
+
     private AverageListenersPerArtist getAverageTopSongs() {
         final var avg = new AverageListenersPerArtist();
         avg.setAverageListeners(new ArrayList<>());
+        avg.setAveragePlaycount(new ArrayList<>());
         return avg;
     }
 
     private void setNewAverage(AverageListenersPerArtist aggregator) {
-        final Double sum = aggregator.getAverageListeners().stream()
+        final Double listeners = aggregator.getAverageListeners().stream()
                 .mapToDouble(p -> p)
                 .sum();
-        aggregator.setAverage((int) (sum / (double) aggregator.getAverageListeners().size()));
+        final Double playcount = aggregator.getAveragePlaycount().stream()
+                .mapToDouble(p -> p)
+                .sum();
+        int avgListeners = (int) (listeners / (double) aggregator.getAverageListeners().size());
+        int avgPlaycount = (int) (playcount / (double) aggregator.getAverageListeners().size());
+        aggregator.setAverage(avgPlaycount/avgListeners);
     }
 
 }

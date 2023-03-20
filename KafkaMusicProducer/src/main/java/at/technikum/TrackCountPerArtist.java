@@ -15,8 +15,8 @@ import java.util.Optional;
 /** Top tracks provided by last fm api */
 @org.apache.avro.specific.AvroGenerated
 public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -7389723665512755554L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TrackCountPerArtist\",\"namespace\":\"at.technikum\",\"doc\":\"Top tracks provided by last fm api\",\"fields\":[{\"name\":\"artist\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"count\",\"type\":\"int\"}]}");
+  private static final long serialVersionUID = 3960553090844093931L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TrackCountPerArtist\",\"namespace\":\"at.technikum\",\"doc\":\"Top tracks provided by last fm api\",\"fields\":[{\"name\":\"artist\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"averagePlaycountPerListener\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -73,7 +73,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   }
 
    private java.lang.String artist;
-   private int count;
+   private int averagePlaycountPerListener;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -85,11 +85,11 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   /**
    * All-args constructor.
    * @param artist The new value for artist
-   * @param count The new value for count
+   * @param averagePlaycountPerListener The new value for averagePlaycountPerListener
    */
-  public TrackCountPerArtist(java.lang.String artist, java.lang.Integer count) {
+  public TrackCountPerArtist(java.lang.String artist, java.lang.Integer averagePlaycountPerListener) {
     this.artist = artist;
-    this.count = count;
+    this.averagePlaycountPerListener = averagePlaycountPerListener;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -98,7 +98,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return artist;
-    case 1: return count;
+    case 1: return averagePlaycountPerListener;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -108,7 +108,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: artist = (java.lang.String)value$; break;
-    case 1: count = (java.lang.Integer)value$; break;
+    case 1: averagePlaycountPerListener = (java.lang.Integer)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -138,27 +138,27 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
-   * Gets the value of the 'count' field.
-   * @return The value of the 'count' field.
+   * Gets the value of the 'averagePlaycountPerListener' field.
+   * @return The value of the 'averagePlaycountPerListener' field.
    */
-  public int getCount() {
-    return count;
+  public int getAveragePlaycountPerListener() {
+    return averagePlaycountPerListener;
   }
 
   /**
-   * Gets the value of the 'count' field as an Optional<java.lang.Integer>.
+   * Gets the value of the 'averagePlaycountPerListener' field as an Optional<java.lang.Integer>.
    * @return The value wrapped in an Optional&lt;java.lang.Integer&gt;.
    */
-  public Optional<java.lang.Integer> getOptionalCount() {
-    return Optional.<java.lang.Integer>ofNullable(count);
+  public Optional<java.lang.Integer> getOptionalAveragePlaycountPerListener() {
+    return Optional.<java.lang.Integer>ofNullable(averagePlaycountPerListener);
   }
 
   /**
-   * Sets the value of the 'count' field.
+   * Sets the value of the 'averagePlaycountPerListener' field.
    * @param value the value to set.
    */
-  public void setCount(int value) {
-    this.count = value;
+  public void setAveragePlaycountPerListener(int value) {
+    this.averagePlaycountPerListener = value;
   }
 
   /**
@@ -202,7 +202,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
     implements org.apache.avro.data.RecordBuilder<TrackCountPerArtist> {
 
     private java.lang.String artist;
-    private int count;
+    private int averagePlaycountPerListener;
 
     /** Creates a new Builder */
     private Builder() {
@@ -219,8 +219,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
         this.artist = data().deepCopy(fields()[0].schema(), other.artist);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.count)) {
-        this.count = data().deepCopy(fields()[1].schema(), other.count);
+      if (isValidValue(fields()[1], other.averagePlaycountPerListener)) {
+        this.averagePlaycountPerListener = data().deepCopy(fields()[1].schema(), other.averagePlaycountPerListener);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
     }
@@ -235,8 +235,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
         this.artist = data().deepCopy(fields()[0].schema(), other.artist);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.count)) {
-        this.count = data().deepCopy(fields()[1].schema(), other.count);
+      if (isValidValue(fields()[1], other.averagePlaycountPerListener)) {
+        this.averagePlaycountPerListener = data().deepCopy(fields()[1].schema(), other.averagePlaycountPerListener);
         fieldSetFlags()[1] = true;
       }
     }
@@ -289,47 +289,47 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
     }
 
     /**
-      * Gets the value of the 'count' field.
+      * Gets the value of the 'averagePlaycountPerListener' field.
       * @return The value.
       */
-    public int getCount() {
-      return count;
+    public int getAveragePlaycountPerListener() {
+      return averagePlaycountPerListener;
     }
 
     /**
-      * Gets the value of the 'count' field as an Optional<java.lang.Integer>.
+      * Gets the value of the 'averagePlaycountPerListener' field as an Optional<java.lang.Integer>.
       * @return The Optional&lt;value&gt;.
       */
-    public Optional<java.lang.Integer> getOptionalCount() {
-      return Optional.<java.lang.Integer>ofNullable(count);
+    public Optional<java.lang.Integer> getOptionalAveragePlaycountPerListener() {
+      return Optional.<java.lang.Integer>ofNullable(averagePlaycountPerListener);
     }
 
     /**
-      * Sets the value of the 'count' field.
-      * @param value The value of 'count'.
+      * Sets the value of the 'averagePlaycountPerListener' field.
+      * @param value The value of 'averagePlaycountPerListener'.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder setCount(int value) {
+    public at.technikum.TrackCountPerArtist.Builder setAveragePlaycountPerListener(int value) {
       validate(fields()[1], value);
-      this.count = value;
+      this.averagePlaycountPerListener = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'count' field has been set.
-      * @return True if the 'count' field has been set, false otherwise.
+      * Checks whether the 'averagePlaycountPerListener' field has been set.
+      * @return True if the 'averagePlaycountPerListener' field has been set, false otherwise.
       */
-    public boolean hasCount() {
+    public boolean hasAveragePlaycountPerListener() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'count' field.
+      * Clears the value of the 'averagePlaycountPerListener' field.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder clearCount() {
+    public at.technikum.TrackCountPerArtist.Builder clearAveragePlaycountPerListener() {
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -340,7 +340,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
       try {
         TrackCountPerArtist record = new TrackCountPerArtist();
         record.artist = fieldSetFlags()[0] ? this.artist : (java.lang.String) defaultValue(fields()[0]);
-        record.count = fieldSetFlags()[1] ? this.count : (java.lang.Integer) defaultValue(fields()[1]);
+        record.averagePlaycountPerListener = fieldSetFlags()[1] ? this.averagePlaycountPerListener : (java.lang.Integer) defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -375,7 +375,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   {
     out.writeString(this.artist);
 
-    out.writeInt(this.count);
+    out.writeInt(this.averagePlaycountPerListener);
 
   }
 
@@ -386,7 +386,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
     if (fieldOrder == null) {
       this.artist = in.readString();
 
-      this.count = in.readInt();
+      this.averagePlaycountPerListener = in.readInt();
 
     } else {
       for (int i = 0; i < 2; i++) {
@@ -396,7 +396,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
           break;
 
         case 1:
-          this.count = in.readInt();
+          this.averagePlaycountPerListener = in.readInt();
           break;
 
         default:
