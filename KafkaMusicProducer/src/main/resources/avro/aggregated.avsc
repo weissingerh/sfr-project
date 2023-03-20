@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "TrackCountPerArtist",
+  "namespace" : "at.technikum",
+  "doc" : "Top tracks provided by last fm api",
+  "fields" : [ {
+    "name" : "artist",
+    "type" : "string"
+  }, {
+    "name" : "count",
+    "type" : "int"
+  } ]
+}
