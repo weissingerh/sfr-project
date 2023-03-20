@@ -1,6 +1,6 @@
 {
   "type" : "record",
-  "name" : "TrackCountPerArtist",
+  "name" : "TrackAggregated",
   "namespace" : "at.technikum",
   "doc" : "Top tracks provided by last fm api",
   "fields" : [ {

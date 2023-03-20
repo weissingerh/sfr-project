@@ -5,33 +5,31 @@
  */
 package at.technikum;
 
-import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
-import org.apache.avro.util.Utf8;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
 import java.util.Optional;
 /** Top tracks provided by last fm api */
 @org.apache.avro.specific.AvroGenerated
-public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+public class TrackAggregated extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 3960553090844093931L;
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TrackCountPerArtist\",\"namespace\":\"at.technikum\",\"doc\":\"Top tracks provided by last fm api\",\"fields\":[{\"name\":\"artist\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"averagePlaycountPerListener\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<TrackCountPerArtist> ENCODER =
-      new BinaryMessageEncoder<TrackCountPerArtist>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<TrackAggregated> ENCODER =
+      new BinaryMessageEncoder<TrackAggregated>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<TrackCountPerArtist> DECODER =
-      new BinaryMessageDecoder<TrackCountPerArtist>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<TrackAggregated> DECODER =
+      new BinaryMessageDecoder<TrackAggregated>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<TrackCountPerArtist> getEncoder() {
+  public static BinaryMessageEncoder<TrackAggregated> getEncoder() {
     return ENCODER;
   }
 
@@ -39,7 +37,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<TrackCountPerArtist> getDecoder() {
+  public static BinaryMessageDecoder<TrackAggregated> getDecoder() {
     return DECODER;
   }
 
@@ -48,8 +46,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<TrackCountPerArtist> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<TrackCountPerArtist>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<TrackAggregated> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<TrackAggregated>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
@@ -67,7 +65,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * @return a TrackCountPerArtist instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static TrackCountPerArtist fromByteBuffer(
+  public static TrackAggregated fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -80,14 +78,14 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public TrackCountPerArtist() {}
+  public TrackAggregated() {}
 
   /**
    * All-args constructor.
    * @param artist The new value for artist
    * @param averagePlaycountPerListener The new value for averagePlaycountPerListener
    */
-  public TrackCountPerArtist(java.lang.String artist, java.lang.Integer averagePlaycountPerListener) {
+  public TrackAggregated(java.lang.String artist, java.lang.Integer averagePlaycountPerListener) {
     this.artist = artist;
     this.averagePlaycountPerListener = averagePlaycountPerListener;
   }
@@ -165,8 +163,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * Creates a new TrackCountPerArtist RecordBuilder.
    * @return A new TrackCountPerArtist RecordBuilder
    */
-  public static at.technikum.TrackCountPerArtist.Builder newBuilder() {
-    return new at.technikum.TrackCountPerArtist.Builder();
+  public static TrackAggregated.Builder newBuilder() {
+    return new TrackAggregated.Builder();
   }
 
   /**
@@ -174,11 +172,11 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * @param other The existing builder to copy.
    * @return A new TrackCountPerArtist RecordBuilder
    */
-  public static at.technikum.TrackCountPerArtist.Builder newBuilder(at.technikum.TrackCountPerArtist.Builder other) {
+  public static TrackAggregated.Builder newBuilder(TrackAggregated.Builder other) {
     if (other == null) {
-      return new at.technikum.TrackCountPerArtist.Builder();
+      return new TrackAggregated.Builder();
     } else {
-      return new at.technikum.TrackCountPerArtist.Builder(other);
+      return new TrackAggregated.Builder(other);
     }
   }
 
@@ -187,19 +185,19 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
    * @param other The existing instance to copy.
    * @return A new TrackCountPerArtist RecordBuilder
    */
-  public static at.technikum.TrackCountPerArtist.Builder newBuilder(at.technikum.TrackCountPerArtist other) {
+  public static TrackAggregated.Builder newBuilder(TrackAggregated other) {
     if (other == null) {
-      return new at.technikum.TrackCountPerArtist.Builder();
+      return new TrackAggregated.Builder();
     } else {
-      return new at.technikum.TrackCountPerArtist.Builder(other);
+      return new TrackAggregated.Builder(other);
     }
   }
 
   /**
    * RecordBuilder for TrackCountPerArtist instances.
    */
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<TrackCountPerArtist>
-    implements org.apache.avro.data.RecordBuilder<TrackCountPerArtist> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<TrackAggregated>
+    implements org.apache.avro.data.RecordBuilder<TrackAggregated> {
 
     private java.lang.String artist;
     private int averagePlaycountPerListener;
@@ -213,7 +211,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(at.technikum.TrackCountPerArtist.Builder other) {
+    private Builder(TrackAggregated.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.artist)) {
         this.artist = data().deepCopy(fields()[0].schema(), other.artist);
@@ -229,7 +227,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
      * Creates a Builder by copying an existing TrackCountPerArtist instance
      * @param other The existing instance to copy.
      */
-    private Builder(at.technikum.TrackCountPerArtist other) {
+    private Builder(TrackAggregated other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.artist)) {
         this.artist = data().deepCopy(fields()[0].schema(), other.artist);
@@ -262,7 +260,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'artist'.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder setArtist(java.lang.String value) {
+    public TrackAggregated.Builder setArtist(java.lang.String value) {
       validate(fields()[0], value);
       this.artist = value;
       fieldSetFlags()[0] = true;
@@ -282,7 +280,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'artist' field.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder clearArtist() {
+    public TrackAggregated.Builder clearArtist() {
       artist = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -309,7 +307,7 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'averagePlaycountPerListener'.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder setAveragePlaycountPerListener(int value) {
+    public TrackAggregated.Builder setAveragePlaycountPerListener(int value) {
       validate(fields()[1], value);
       this.averagePlaycountPerListener = value;
       fieldSetFlags()[1] = true;
@@ -329,16 +327,16 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'averagePlaycountPerListener' field.
       * @return This builder.
       */
-    public at.technikum.TrackCountPerArtist.Builder clearAveragePlaycountPerListener() {
+    public TrackAggregated.Builder clearAveragePlaycountPerListener() {
       fieldSetFlags()[1] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public TrackCountPerArtist build() {
+    public TrackAggregated build() {
       try {
-        TrackCountPerArtist record = new TrackCountPerArtist();
+        TrackAggregated record = new TrackAggregated();
         record.artist = fieldSetFlags()[0] ? this.artist : (java.lang.String) defaultValue(fields()[0]);
         record.averagePlaycountPerListener = fieldSetFlags()[1] ? this.averagePlaycountPerListener : (java.lang.Integer) defaultValue(fields()[1]);
         return record;
@@ -351,8 +349,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<TrackCountPerArtist>
-    WRITER$ = (org.apache.avro.io.DatumWriter<TrackCountPerArtist>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<TrackAggregated>
+    WRITER$ = (org.apache.avro.io.DatumWriter<TrackAggregated>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -360,8 +358,8 @@ public class TrackCountPerArtist extends org.apache.avro.specific.SpecificRecord
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<TrackCountPerArtist>
-    READER$ = (org.apache.avro.io.DatumReader<TrackCountPerArtist>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<TrackAggregated>
+    READER$ = (org.apache.avro.io.DatumReader<TrackAggregated>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
