@@ -14,7 +14,7 @@ import java.util.TimerTask;
 @SpringBootApplication
 public class KafkaMusicProducerApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(KafkaMusicProducerApplication.class, args);
 
 		//Einmal pro Minute werden die charts aktualisiert
@@ -24,10 +24,12 @@ public class KafkaMusicProducerApplication {
 			@SneakyThrows
 			@Override
 			public void run() {
-				new RestTemplate().getForObject("http://localhost:8080/kafka/tracks", ByteArraySerializer.class);
+				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/believe", ByteArraySerializer.class);
+				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/after all", ByteArraySerializer.class);
 			}
 		}, 10000, 60000);
 
+		Thread.sleep(10000);
 		//Öffnen des aggregierenden Streams
 		new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
 

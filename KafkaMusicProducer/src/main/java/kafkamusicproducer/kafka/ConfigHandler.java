@@ -2,10 +2,9 @@ package kafkamusicproducer.kafka;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import kafkamusicproducer.serdes.CustomMusicSerdes;
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import kafkamusicproducer.serdes.MusicSerde;
 import kafkamusicproducer.serializers.JsonDeserializer;
-import kafkamusicproducer.serializers.JsonSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -26,7 +25,7 @@ import static org.apache.kafka.streams.StreamsConfig.*;
 public class ConfigHandler {
 
 
-    public Properties loadConsumerJsonConfig() {
+    public Properties loadJsonConfig() {
         Properties config = loadConfig();
         config.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
@@ -36,12 +35,12 @@ public class ConfigHandler {
         return config;
     }
 
-    public Properties loadProducerJsonConfig() {
+    public Properties loadAvroConfig() {
         final Properties properties = loadConfig();
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                JsonSerializer.class);
+                KafkaAvroSerializer.class);
         return properties;
     }
 

@@ -16,7 +16,7 @@ public class KafkaListeners {
     private String topicCharts;
     @Value("${topic.name.charts.tracks.aggregated.average}")
     private String topicAggregatedAverage;
-    @Value("${topic.name.lyrics}")
+    @Value("${topic.name.lyrics.harrystyles.asitwas}")
     private String topicLyrics;
 
     //@KafkaListener(topics = "${topic.name.charts.artists}", groupId = "music")
@@ -29,7 +29,9 @@ public class KafkaListeners {
 
     }
 
-    @KafkaListener(topics = "${topic.name.charts.tracks.aggregated.average}", groupId = "music")
+
+
+    @KafkaListener(topics = "tracksAggregatedAverage", groupId = "music")
     public void consumeAggregatedAverage(ConsumerRecord<String, String> payload){
         log.info("Topic: {}", topicAggregatedAverage);
         log.info("key: {}", payload.key());
@@ -39,7 +41,8 @@ public class KafkaListeners {
 
     }
 
-    @KafkaListener(topics = "${topic.name.lyrics}", groupId = "music")
+
+    @KafkaListener(topics = "${topic.name.lyrics.harrystyles.asitwas}", groupId = "music")
     public void consumeLyrics(ConsumerRecord<String, String> payload){
         log.info("Topic: {}", topicLyrics);
         log.info("key: {}", payload.key());

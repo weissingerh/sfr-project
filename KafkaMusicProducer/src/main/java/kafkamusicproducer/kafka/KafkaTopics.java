@@ -7,11 +7,10 @@ import lombok.Getter;
 @Getter
 public enum KafkaTopics {
     CHARTS_TOP_ARTISTS("topArtists"),
-    TRACKS_CHER_BELIEVE("Cher_Believe"),
-    TRACKS_HARRYSTYLES_ASITWAS("HarryStyles_AsItWas"),
+    TRACKS_SOURCE_TOPIC("tracks"),
     TRACKS_AGGREGATED("tracksAggregated"),
     TRACKS_AGGREGATED_AVERAGE("tracksAggregatedAverage"),
-    LYRICS_HARRYSTYLES_ASITWAS("lysrics_HarryStyles_AsItWas");
+    LYRICS_HARRYSTYLES_ASITWAS("lyrics_HarryStyles_AsItWas");
 
     public final String value;
 

@@ -2,14 +2,12 @@ package kafkamusicproducer.service;
 
 import at.technikum.Track;
 import kafkamusicproducer.apis.LastFmApi;
+import kafkamusicproducer.kafka.KafkaTopics;
 import kafkamusicproducer.kafka.TopicProducer;
 import kafkamusicproducer.model.LastFmResponseTracks;
 import kafkamusicproducer.serializers.AvroSerializer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequiredArgsConstructor
@@ -22,22 +20,22 @@ public class MusicController {
     private final MusicService musicService;
 
     @CrossOrigin
-    @GetMapping("/tracks")
-    public void sendTracks() throws Exception {
-        LastFmResponseTracks tracks = lastFmApi.getSpecificTrack();
+    @GetMapping("/track/{artist}/{title}")
+    public void sendTracks(@PathVariable String artist, @PathVariable String title) throws Exception {
+        LastFmResponseTracks tracks = lastFmApi.getSpecificTrack(artist, title);
         final Track track = Track.newBuilder()
                 .setArtist(tracks.getTrack().getArtist().getName())
                 .setListeners(tracks.getTrack().getListeners())
                 .setPlaycount(tracks.getTrack().getPlaycount())
                 .setTitle(tracks.getTrack().getName())
                 .build();
-        topicProducer.sendTracks("key", track);
+        topicProducer.sendTracks(KafkaTopics.TRACKS_SOURCE_TOPIC.value, track);
     }
 
     @CrossOrigin
     @GetMapping("/tracksAverage")
     public void sendTrackAverage() throws Exception {
-        musicService.aggregateMusicStreams();
+        musicService.aggregateMusicStreams(KafkaTopics.TRACKS_SOURCE_TOPIC.value);
     }
 
     @GetMapping("/charts")

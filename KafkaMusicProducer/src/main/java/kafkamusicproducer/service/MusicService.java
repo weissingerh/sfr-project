@@ -1,6 +1,7 @@
 package kafkamusicproducer.service;
 
 import at.technikum.Track;
+import kafkamusicproducer.kafka.KafkaTopics;
 import kafkamusicproducer.model.AggregatedAverageListeners;
 import kafkamusicproducer.model.AverageListenersTrack;
 import kafkamusicproducer.serdes.MusicAggregatedAverageSerde;
@@ -26,17 +27,17 @@ public class MusicService {
 
     private final ConfigHandler configHandler = new ConfigHandler();
 
-    public void aggregateMusicStreams() {
+    public void aggregateMusicStreams(String sourceTopic) {
 
         final Topology topology;
         final StreamsBuilder streamsBuilder;
         final KafkaStreams kafkaStreams;
         final Properties properties;
 
-        properties = configHandler.loadConsumerJsonConfig();
+        properties = configHandler.loadJsonConfig();
         streamsBuilder = new StreamsBuilder();
 
-        streamsBuilder.<String, Track>stream("topTracks")
+        streamsBuilder.<String, Track>stream(sourceTopic)
                 .groupBy((key, value) -> value.getArtist())
                 .aggregate(this::getAverageTopSongs, (key, value, aggregator) -> {
                     aggregator.setTitle(value.getTitle());
@@ -45,12 +46,12 @@ public class MusicService {
                     aggregator.getAveragePlaycount().add(value.getPlaycount());
                     setNewAverage(aggregator);
                     return aggregator;
-                }, Materialized.<String, AggregatedAverageListeners, KeyValueStore<Bytes, byte[]>>as("topTracksAggregated")
+                }, Materialized.<String, AggregatedAverageListeners, KeyValueStore<Bytes, byte[]>>as(KafkaTopics.TRACKS_AGGREGATED.value)
                         .withKeySerde(Serdes.String())
                         .withValueSerde(new MusicAggregatedAverageSerde()))
                 .toStream()
                 .mapValues(this::getAverage)
-                .to("topTracksAveragePlaysPerListener", Produced.with(Serdes.String(), new TrackAverageSerde()));
+                .to(KafkaTopics.TRACKS_AGGREGATED_AVERAGE.value, Produced.with(Serdes.String(), new TrackAverageSerde()));
 
         topology = streamsBuilder.build();
         kafkaStreams = new KafkaStreams(topology, properties);
