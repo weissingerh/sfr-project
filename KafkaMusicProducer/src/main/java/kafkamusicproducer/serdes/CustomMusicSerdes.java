@@ -1,6 +1,6 @@
 package kafkamusicproducer.serdes;
 
-import kafkamusicproducer.model.AverageListenersPerArtist;
+import kafkamusicproducer.model.AggregatedAverageListeners;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -14,9 +14,9 @@ public class CustomMusicSerdes extends Serdes.WrapperSerde {
         super(serializer, deserializer);
     }
 
-    public static Serde<AverageListenersPerArtist> averageSongs() {
-        JsonSerializer<AverageListenersPerArtist> serializer = new JsonSerializer<>();
-        JsonDeserializer<AverageListenersPerArtist> deserializer = new JsonDeserializer<>(AverageListenersPerArtist.class);
+    public static Serde<AggregatedAverageListeners> averageSongs() {
+        JsonSerializer<AggregatedAverageListeners> serializer = new JsonSerializer<>();
+        JsonDeserializer<AggregatedAverageListeners> deserializer = new JsonDeserializer<>(AggregatedAverageListeners.class);
         return Serdes.serdeFrom(serializer, deserializer);
     }
 }
