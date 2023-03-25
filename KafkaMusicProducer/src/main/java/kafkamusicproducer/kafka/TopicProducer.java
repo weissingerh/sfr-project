@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TopicProducer {
 
-    @Value("${topic.name.charts.artists}")
-    private String topicCharts;
+    //@Value("${topic.name.charts.artists}")
+    //private String topicCharts;
     @Value("topTracks")
     private String topicTracks;
 
@@ -49,7 +49,7 @@ public class TopicProducer {
 
 
     public void sendCharts(byte[] message){
-        kafkaTemplate.send(topicCharts, message);
+       // kafkaTemplate.send(topicCharts, message);
     }
 
 
