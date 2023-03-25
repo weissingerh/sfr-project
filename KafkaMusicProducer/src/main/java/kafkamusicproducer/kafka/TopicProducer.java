@@ -1,6 +1,5 @@
 package kafkamusicproducer.kafka;
 
-import kafkamusicproducer.util.ConfigHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -15,10 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TopicProducer {
 
-//    @Value("${topic.name.charts.artists}")
-//    private String topicCharts;
+    @Value("${topic.name.charts.artists}")
+    private String topicCharts;
     @Value("topTracks")
     private String topicTracks;
+
 ////    @Value("${topic.name.charts.tracks.aggregated}")
 ////    private String topicTracksAggregated;
 ////    @Value("${topic.name.charts.tracks.aggregated.average}")
@@ -46,11 +46,13 @@ public class TopicProducer {
 ////    public void sendAggregatedAverage(String message){
 ////        kafkaTemplateObject.send(getTopicTracksAggregatedAverage, message);
 ////    }
-//
-////    public void sendCharts(byte[] message){
-////        kafkaTemplate.send(topicCharts, message);
-////    }
-//
+
+
+    public void sendCharts(byte[] message){
+        kafkaTemplate.send(topicCharts, message);
+    }
+
+
 //    public void sendLyrics(byte[] message) {
 //        kafkaTemplate.send(topicLyrics, message);
 //    }

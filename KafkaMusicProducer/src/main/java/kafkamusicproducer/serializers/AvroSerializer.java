@@ -1,4 +1,4 @@
-package kafkamusicproducer.kafka;
+package kafkamusicproducer.serializers;
 
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileWriter;
@@ -12,7 +12,7 @@ import java.io.*;
 
 
 public class AvroSerializer {
-    static byte[] fromJsonToAvro(String json, String avroSchema) throws Exception {
+    public static byte[] fromJsonToAvro(String json, String avroSchema) throws Exception {
         InputStream input = new ByteArrayInputStream(json.getBytes());
         DataInputStream din = new DataInputStream(input);
 

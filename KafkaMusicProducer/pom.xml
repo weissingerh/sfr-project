@@ -116,7 +116,6 @@
 <!--							<goal>idl-protocol</goal>-->
 						</goals>
 						<configuration>
-							<sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
 <!--							<stringType>String</stringType>-->
 <!--							<createSetters>true</createSetters>-->
 <!--							<enableDecimalLogicalType>true</enableDecimalLogicalType>-->

@@ -3,7 +3,7 @@ package kafkamusicproducer.service;
 import at.technikum.Track;
 import kafkamusicproducer.model.AverageListenersPerArtist;
 import kafkamusicproducer.serdes.MusicAverageSerde;
-import kafkamusicproducer.util.ConfigHandler;
+import kafkamusicproducer.kafka.ConfigHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -25,8 +25,14 @@ public class MusicService {
     private final ConfigHandler configHandler = new ConfigHandler();
 
     public void aggregateMusicStreams() {
-        final Properties properties = configHandler.loadConsumerJsonConfig();
-        final StreamsBuilder streamsBuilder = new StreamsBuilder();
+
+        final Topology topology;
+        final StreamsBuilder streamsBuilder;
+        final KafkaStreams kafkaStreams;
+        final Properties properties;
+
+        properties = configHandler.loadConsumerJsonConfig();
+        streamsBuilder = new StreamsBuilder();
 
         streamsBuilder.<String, Track>stream("topTracks")
                 .groupBy((key, value) -> value.getArtist())
@@ -38,19 +44,18 @@ public class MusicService {
                 }, Materialized.<String, AverageListenersPerArtist, KeyValueStore<Bytes, byte[]>>as("topTracksAggregated")
                         .withKeySerde(Serdes.String())
                         .withValueSerde(new MusicAverageSerde()))
-//                        .withValueSerde(MusicSerdes.averageSongs()))
                 .toStream()
                 .mapValues(this::getAverage)
                 .to("topTracksAveragePlaysPerListener", Produced.with(Serdes.String(), Serdes.String()));
 
-        final Topology topology = streamsBuilder.build();
-        final KafkaStreams kafkaStreams = new KafkaStreams(topology, properties);
+        topology = streamsBuilder.build();
+        kafkaStreams = new KafkaStreams(topology, properties);
 
         kafkaStreams.start();
 
     }
 
-    public String getAverage(final AverageListenersPerArtist average) {
+    private String getAverage(final AverageListenersPerArtist average) {
         final int avg = average.getAverage();
         return Integer.toString(avg);
     }

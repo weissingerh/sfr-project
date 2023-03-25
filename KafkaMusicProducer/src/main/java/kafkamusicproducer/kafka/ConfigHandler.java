@@ -1,4 +1,4 @@
-package kafkamusicproducer.util;
+package kafkamusicproducer.kafka;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;

@@ -25,10 +25,11 @@ public class KafkaMusicProducerApplication {
 			@Override
 			public void run() {
 				new RestTemplate().getForObject("http://localhost:8080/kafka/tracks", ByteArraySerializer.class);
-				Thread.sleep(1000);
-				new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
 			}
 		}, 10000, 60000);
+
+		//Öffnen des aggregierenden Streams
+		new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
 
 		//Danach kann nochetwas ausgeführt werden
 	}

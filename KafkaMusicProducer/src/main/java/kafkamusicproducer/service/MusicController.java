@@ -2,10 +2,9 @@ package kafkamusicproducer.service;
 
 import at.technikum.Track;
 import kafkamusicproducer.apis.LastFmApi;
-import kafkamusicproducer.apis.MusixmatchApi;
 import kafkamusicproducer.kafka.TopicProducer;
 import kafkamusicproducer.model.LastFmResponseTracks;
-import kafkamusicproducer.model.LastFmTrack;
+import kafkamusicproducer.serializers.AvroSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,7 @@ public class MusicController {
 
     @CrossOrigin
     @GetMapping("/tracks")
-    public void send0() throws Exception {
+    public void sendTracks() throws Exception {
         LastFmResponseTracks tracks = lastFmApi.getSpecificTrack();
         final Track track = Track.newBuilder()
                 .setArtist(tracks.getTrack().getArtist().getName())
@@ -32,23 +31,22 @@ public class MusicController {
                 .setPlaycount(tracks.getTrack().getPlaycount())
                 .setTitle(tracks.getTrack().getName())
                 .build();
-
         topicProducer.sendTracks("key", track);
     }
 
     @CrossOrigin
     @GetMapping("/tracksAverage")
-    public void send1() throws Exception {
+    public void sendTrackAverage() throws Exception {
         musicService.aggregateMusicStreams();
     }
 
-    //@GetMapping("/charts")
-    //    public void send1() throws Exception {
-    //        String tracks = lastFmApi.getArtists();
-    //        byte[] avroByteArray = AvroSerializer.fromJsonToAvro(tracks, lastFmApi.schema);
-    //        System.out.println(tracks);
-    //        topicProducer.sendCharts(avroByteArray);
-    //    }
+    @GetMapping("/charts")
+    public void sendCharts() throws Exception {
+        String tracks = lastFmApi.getArtists();
+        byte[] avroByteArray = AvroSerializer.fromJsonToAvro(tracks, lastFmApi.schema);
+        System.out.println(tracks);
+        topicProducer.sendCharts(avroByteArray);
+    }
 
 //    @GetMapping("/lyrics")
 //    public void send2() throws Exception {
