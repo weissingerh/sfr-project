@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import musicapi.persistence.model.Track;
+import musicapi.persistence.model.repository.ArtistRepository;
 import musicapi.persistence.model.repository.TrackRepository;
+import musicapi.persistencelayer.model.Artist;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +31,8 @@ public class KafkaListeners {
 
     @Autowired
     private final TrackRepository trackRepository;
+    @Autowired
+    private final ArtistRepository artistRepository;
 
    // @KafkaListener(topics = "${topic.name.charts.artists}", groupId = "music")
     public void consumeCharts(ConsumerRecord<String, String> payload) throws JsonProcessingException {
@@ -41,7 +45,9 @@ public class KafkaListeners {
         ObjectMapper mapper = new ObjectMapper();
         Map map = mapper.readValue(payload.value(), Map.class);
         System.out.println("test");
-        Track track = new Track((String) map.get("artist"), (String) map.get("title"), (Integer) map.get("average"));
+
+//        Artist artist = new Artist((String) map.get("artist"));
+        //Track track = new Track(artist, (String) map.get("title"), (Integer) map.get("average"));
 
     }
 
@@ -59,9 +65,11 @@ public class KafkaListeners {
 
         for (Map trackData : allTracks) {
             Map artistData = (Map) trackData.get("artist");
-            String artist = (String) artistData.get("name");
-
+            int newId = artistRepository.findAll().size();
+            Artist artist = new Artist(newId, (String) artistData.get("name"));
+            artistRepository.save(artist);
             int average = (Integer) trackData.get("playcount") / (Integer) trackData.get("listeners");
+
 
             Track track = new Track(artist, (String) trackData.get("name"), average);
             trackRepository.save(track);
@@ -78,7 +86,10 @@ public class KafkaListeners {
 
         ObjectMapper mapper = new ObjectMapper();
         Map map = mapper.readValue(payload.value(), Map.class);
-        Track track = new Track((String) map.get("artist"), (String) map.get("title"), (Integer) map.get("average"));
+        int newId = artistRepository.findAll().size();
+        Artist artist = new Artist(newId, (String) map.get("name"));
+        artistRepository.save(artist);
+        Track track = new Track(artist, (String) map.get("title"), (Integer) map.get("average"));
 
         trackRepository.save(track);
     }
