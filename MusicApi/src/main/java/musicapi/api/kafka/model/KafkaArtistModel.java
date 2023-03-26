@@ -1,11 +1,10 @@
-package musicapi.businesslayer;
+package musicapi.api.kafka.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KafkaTrackModel {
+public class KafkaArtistModel {
     private String name;
-    private KafkaArtistModel artistModel;
 }

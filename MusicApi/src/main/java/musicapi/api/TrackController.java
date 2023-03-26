@@ -1,8 +1,8 @@
 package musicapi.api;
 
 import lombok.AllArgsConstructor;
-import musicapi.persistence.model.Track;
-import musicapi.persistence.model.repository.TrackRepository;
+import musicapi.persistencelayer.model.Track;
+import musicapi.persistencelayer.repository.TrackRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

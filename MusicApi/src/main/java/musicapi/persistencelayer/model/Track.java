@@ -1,10 +1,9 @@
-package musicapi.persistence.model;
+package musicapi.persistencelayer.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import musicapi.persistencelayer.model.Artist;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
@@ -20,6 +19,10 @@ public class Track {
     private String title;
 
     private int average;
+
+    @DocumentReference(lazy = true, lookup = "{ 'track' : ?#{#self._id} }")
+    @ReadOnlyProperty
+    private TopTrack topTrack;
 
     public Track(Artist artist, String title, int averageTimesListenedPerUser) {
         this.id = artist.getName().replace(" ", "") +  "_" + title.replace(" ", "");
