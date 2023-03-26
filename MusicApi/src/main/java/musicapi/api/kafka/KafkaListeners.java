@@ -1,4 +1,4 @@
-package musicapi.businesslayer.kafka;
+package musicapi.api.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -29,21 +30,9 @@ public class KafkaListeners {
     @Autowired
     private final TrackRepository trackRepository;
 
-    //@KafkaListener(topics = "${topic.name.charts.artists}", groupId = "music")
-    public void consumeCharts(ConsumerRecord<String, String> payload){
+   // @KafkaListener(topics = "${topic.name.charts.artists}", groupId = "music")
+    public void consumeCharts(ConsumerRecord<String, String> payload) throws JsonProcessingException {
         log.info("Topic: {}", topicCharts);
-        log.info("key: {}", payload.key());
-        log.info("Headers: {}", payload.headers());
-        log.info("Partion: {}", payload.partition());
-        log.info("Value: {}", payload.value());
-
-    }
-
-
-
-    @KafkaListener(topics = "tracksAggregatedAverage", groupId = "music")
-    public void consumeAggregatedAverage(ConsumerRecord<String, String> payload) throws JsonProcessingException {
-        log.info("Topic: {}", topicAggregatedAverage);
         log.info("key: {}", payload.key());
         log.info("Headers: {}", payload.headers());
         log.info("Partion: {}", payload.partition());
@@ -51,22 +40,60 @@ public class KafkaListeners {
 
         ObjectMapper mapper = new ObjectMapper();
         Map map = mapper.readValue(payload.value(), Map.class);
-
+        System.out.println("test");
         Track track = new Track((String) map.get("artist"), (String) map.get("title"), (Integer) map.get("average"));
-
-        log.info("Saving user." + map);
-        trackRepository.save(track);
 
     }
 
+    @KafkaListener(topics = "${topic.name.charts.tracks}", groupId = "music")
+    public void consumeChartsTracks(ConsumerRecord<String, String> payload) throws JsonProcessingException {
+        log.info("Topic: {}", "topTracks");
+        log.info("key: {}", payload.key());
+        log.info("Headers: {}", payload.headers());
+        log.info("Partion: {}", payload.partition());
+        log.info("Value: {}", payload.value());
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map> allTracks = mapper.readValue(payload.value(), List.class);
+        System.out.println("test");
+
+        for (Map trackData : allTracks) {
+            Map artistData = (Map) trackData.get("artist");
+            String artist = (String) artistData.get("name");
+
+            int average = (Integer) trackData.get("playcount") / (Integer) trackData.get("listeners");
+
+            Track track = new Track(artist, (String) trackData.get("name"), average);
+            trackRepository.save(track);
+        }
+
+        log.info("Value: {}", payload.value());
+        //Track track = new Track((String) map.get(0).get("artist"), (String) map.get("title"), (Integer) map.get("average"));
+
+    }
+
+    @KafkaListener(topics = "tracksAggregatedAverage", groupId = "music")
+    public void consumeAggregatedAverage(ConsumerRecord<String, String> payload) throws JsonProcessingException {
+        log.info("Topic: {}", topicAggregatedAverage);
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map map = mapper.readValue(payload.value(), Map.class);
+        Track track = new Track((String) map.get("artist"), (String) map.get("title"), (Integer) map.get("average"));
+
+        trackRepository.save(track);
+    }
 
     @KafkaListener(topics = "${topic.name.lyrics.harrystyles.asitwas}", groupId = "music")
-    public void consumeLyrics(ConsumerRecord<String, String> payload){
+    public void consumeLyrics(ConsumerRecord<String, String> payload) throws JsonProcessingException {
         log.info("Topic: {}", topicLyrics);
         log.info("key: {}", payload.key());
         log.info("Headers: {}", payload.headers());
         log.info("Partion: {}", payload.partition());
         log.info("Value: {}", payload.value());
+
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map map = mapper.readValue(payload.value(), Map.class);
+//        Track track = new Track((String) map.get("artist"), (String) map.get("title"), (Integer) map.get("average"));
     }
 
 

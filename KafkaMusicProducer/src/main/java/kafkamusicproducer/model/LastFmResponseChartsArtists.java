@@ -7,9 +7,6 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LastFmResponseTracks {
-
-//    private LastFmArtist artist;
-    private List<LastFmBasicTrack> track;
-
+public class LastFmResponseChartsArtists {
+    private List<LastFmArtist> artists;
 }

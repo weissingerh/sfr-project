@@ -24,14 +24,16 @@ public class KafkaMusicProducerApplication {
 			@SneakyThrows
 			@Override
 			public void run() {
-				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/believe", ByteArraySerializer.class);
-				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/after all", ByteArraySerializer.class);
+//				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/believe", ByteArraySerializer.class);
+//				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/after all", ByteArraySerializer.class);
+//				new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics", ByteArraySerializer.class);
+				new RestTemplate().getForObject("http://localhost:8080/kafka/charts/tracks", ByteArraySerializer.class);
 			}
 		}, 10000, 60000);
 
 		Thread.sleep(10000);
 		//Öffnen des aggregierenden Streams
-		new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
+//		new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
 
 		//Danach kann nochetwas ausgeführt werden
 	}

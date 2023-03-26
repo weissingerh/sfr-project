@@ -1,13 +1,10 @@
-package kafkamusicproducer.model;
+package musicapi.businesslayer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LastFmTrack {
-    private LastFmArtist artist;
+public class KafkaArtistModel {
     private String name;
-    private int playcount;
-    private int listeners;
 }

@@ -22,4 +22,5 @@ public class Track {
         this.title = title;
         this.average = averageTimesListenedPerUser;
     }
+
 }

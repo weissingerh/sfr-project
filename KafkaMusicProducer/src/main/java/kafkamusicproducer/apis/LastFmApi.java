@@ -1,8 +1,9 @@
 package kafkamusicproducer.apis;
 
-import kafkamusicproducer.model.LastFmResponseTracks;
-import kafkamusicproducer.model.LastFmTrack;
-import org.json.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kafkamusicproducer.model.LastFmResponseChartsArtists;
+import kafkamusicproducer.model.LastFmResponseTrack;
+import kafkamusicproducer.model.LastFmResponseTracksObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,31 @@ public class LastFmApi {
     private String getTracksUrl = "https://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=%s&format=json&limit=10";
     private String getSpecificTrackUrl = "https://ws.audioscrobbler.com/2.0/?method=track.getInfo&api_key=%s&artist=%s&track=%s&format=json";
 
-    public String getArtists(){
+    public LastFmResponseChartsArtists getArtists(){
         String url = String.format(getArtistsUrl, apiKey);
-        return new RestTemplate().getForObject(url, String.class);
+        final ResponseEntity<LastFmResponseChartsArtists> response =
+                new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(null, null), LastFmResponseChartsArtists.class);
+        return response.getBody();
+//        return new RestTemplate().getForObject(url, String.class);
     }
 
-    public LastFmResponseTracks getSpecificTrack(String artist, String title) {
+    public LastFmResponseTracksObject getChartTracks() throws JsonProcessingException {
+        String url = String.format(getTracksUrl, apiKey);
+
+//String response = new RestTemplate().getForObject(url, String.class);
+
+        final ResponseEntity<LastFmResponseTracksObject> response =
+                new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(null, null), LastFmResponseTracksObject.class);
+        return response.getBody();
+
+    }
+
+    public LastFmResponseTrack getSpecificTrack(String artist, String title) {
         String url = String.format(getSpecificTrackUrl, apiKey, artist, title);
         //String response = new RestTemplate().getForObject(url, String.class);
        // return response;
-        final ResponseEntity<LastFmResponseTracks> response =
-                new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(null, null), LastFmResponseTracks.class);
+        final ResponseEntity<LastFmResponseTrack> response =
+                new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(null, null), LastFmResponseTrack.class);
 
         return response.getBody();
         //return this.getModifiedTracks(response);
