@@ -21,8 +21,15 @@ public class TopicProducer {
         kafkaTemplateObject.send(artistTopic, value);
     }
 
+    public void sendCharts(Object charts){
+        kafkaTemplateObject.send(KafkaTopics.CHARTS_TOP_ARTISTS.value, charts);
+    }
 
-    public void sendCharts(byte[] message){
+    public void sendChartsTracks(Object charts){
+        kafkaTemplateObject.send(KafkaTopics.CHARTS_TOP_TRACKS.value, charts);
+    }
+
+    public void sendChartsAvro(byte[] message){
         //Serializer muss auf Avro umgestellt werden
         final Producer<String, Object> producer =
                 new KafkaProducer<>(configHandler.loadAvroConfig());

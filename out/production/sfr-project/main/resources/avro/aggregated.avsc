@@ -1,0 +1,13 @@
+{
+  "type" : "record",
+  "name" : "TrackAggregated",
+  "namespace" : "at.technikum",
+  "doc" : "Top tracks provided by last fm api",
+  "fields" : [ {
+    "name" : "artist",
+    "type" : "string"
+  }, {
+    "name" : "averagePlaycountPerListener",
+    "type" : "int"
+  } ]
+}

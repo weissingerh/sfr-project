@@ -3,13 +3,10 @@ package kafkamusicproducer.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LastFmResponseTracks {
+public class LastFmResponseTrack {
 
-//    private LastFmArtist artist;
-    private List<LastFmBasicTrack> track;
+    private LastFmTrack track;
 
 }
