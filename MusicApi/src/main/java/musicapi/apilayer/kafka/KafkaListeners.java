@@ -1,4 +1,4 @@
-package musicapi.api.kafka;
+package musicapi.apilayer.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

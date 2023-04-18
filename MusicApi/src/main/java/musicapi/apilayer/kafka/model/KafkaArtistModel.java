@@ -1,4 +1,4 @@
-package musicapi.api.kafka.model;
+package musicapi.apilayer.kafka.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
