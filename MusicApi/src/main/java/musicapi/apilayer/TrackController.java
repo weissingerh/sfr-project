@@ -24,7 +24,7 @@ public class TrackController {
     @Autowired
     private final TrackRepository trackRepository;
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public List<Track> getAllTracks() {
         LOG.info("Retrieving all tracks.");
         return trackRepository.findAll();
