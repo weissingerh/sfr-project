@@ -1,0 +1,21 @@
+<div th:switch="${artists}">
+    <h2 th:case="null">No Tracks yet!</h2>
+    <div th:case="*">
+        <h2>Users</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artist : ${artists}">
+                <td th:text="${artist.id}"></td>
+                <td th:text="${artist.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/test">Index 1 Test</a></p>
+</div>

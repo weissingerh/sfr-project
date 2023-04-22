@@ -1,4 +1,4 @@
-package musicapi.api;
+package musicapi.apilayer;
 
 import lombok.AllArgsConstructor;
 import musicapi.persistencelayer.model.Track;
