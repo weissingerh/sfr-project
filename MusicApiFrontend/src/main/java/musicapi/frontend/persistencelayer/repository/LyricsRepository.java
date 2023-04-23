@@ -1,9 +1,9 @@
 package musicapi.frontend.persistencelayer.repository;
 
-import musicapi.frontend.persistencelayer.model.TopTrack;
+import musicapi.frontend.persistencelayer.model.SongLyrics;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TopTracksRepository extends MongoRepository<TopTrack, String> {
+public interface LyricsRepository extends MongoRepository<SongLyrics, String> {
 }

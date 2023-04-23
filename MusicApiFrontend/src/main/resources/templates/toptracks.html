@@ -1,0 +1,22 @@
+<div th:switch="${topTracks}">
+    <h2 th:case="null">No Track-Charts yet!</h2>
+    <div th:case="*">
+        <h2>Track-Charts</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Place</th>
+                <th>Title</th>
+                <th>Artist</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track : ${topTracks}">
+                <td th:text="${track.place}"></td>
+                <td th:text="${track.track.title}"></td>
+                <td th:text="${track.track.artist.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -20,18 +20,23 @@ public class KafkaMusicProducerApplication {
 		//Einmal pro Minute werden die charts aktualisiert
 		//Kann dann später auch erhöht werden auf eine Stunde
 		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			@SneakyThrows
-			@Override
-			public void run() {
-//				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/believe", ByteArraySerializer.class);
-//				new RestTemplate().getForObject("http://localhost:8080/kafka/track/cher/after all", ByteArraySerializer.class);
-//				new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics", ByteArraySerializer.class);
+//		timer.schedule(new TimerTask() {
+//			@SneakyThrows
+//			@Override
+//			public void run() {
 				new RestTemplate().getForObject("http://localhost:8080/kafka/charts/tracks", ByteArraySerializer.class);
-			}
-		}, 10000, 60000);
+//			}
+//		}, 10000, 60000);
+//
+//		Thread.sleep(10000);
 
-		Thread.sleep(10000);
+		//lyrics api calls um die db zu füllen
+		new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics/Harry Styles/As It Was", ByteArraySerializer.class);
+		new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics/Cher/Believe", ByteArraySerializer.class);
+		new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics/50 Cents/Candy Shop", ByteArraySerializer.class);
+		new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics/Taylor Swift/Anti-Hero", ByteArraySerializer.class);
+		new RestTemplate().getForObject("http://localhost:8080/kafka/lyrics/Miley Cyrus/Flowers", ByteArraySerializer.class);
+
 		//Öffnen des aggregierenden Streams
 //		new RestTemplate().getForObject("http://localhost:8080/kafka/tracksAverage", String.class);
 

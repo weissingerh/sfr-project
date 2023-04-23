@@ -11,7 +11,7 @@ public enum KafkaTopics {
     TRACKS_SOURCE_TOPIC("tracks"),
     TRACKS_AGGREGATED("tracksAggregated"),
     TRACKS_AGGREGATED_AVERAGE("tracksAggregatedAverage"),
-    LYRICS_HARRYSTYLES_ASITWAS("lyrics_HarryStyles_AsItWas");
+    LYRICS("lyrics");
 
     public final String value;
 

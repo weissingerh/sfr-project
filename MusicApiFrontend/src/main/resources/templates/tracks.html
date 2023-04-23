@@ -1,0 +1,24 @@
+<div th:switch="${tracks}">
+    <h2 th:case="null">No Tracks yet!</h2>
+    <div th:case="*">
+        <h2>Tracks</h2>
+        <table>
+            <thead>
+            <tr>
+<!--                <th>Id</th>-->
+                <th style="alignment: left">Title</th>
+                <th style="alignment: left">Artist</th>
+                <th style="alignment: left">Average</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="track : ${tracks}">
+<!--                <td th:text="${track.id}"></td>-->
+                <td th:text="${track.title}"></td>
+                <td th:text="${track.artist.name}"></td>
+                <td th:text="${track.average}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,9 +1,10 @@
 package musicapi.frontend;
 
 import lombok.AllArgsConstructor;
-import musicapi.frontend.persistencelayer.model.Artist;
-import musicapi.frontend.persistencelayer.model.Track;
+import musicapi.frontend.persistencelayer.model.*;
 import musicapi.frontend.persistencelayer.repository.ArtistRepository;
+import musicapi.frontend.persistencelayer.repository.LyricsRepository;
+import musicapi.frontend.persistencelayer.repository.TopTracksRepository;
 import musicapi.frontend.persistencelayer.repository.TrackRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
@@ -27,26 +31,49 @@ public class RestController {
     private final TrackRepository trackRepository;
     @Autowired
     private final ArtistRepository artistRepository;
+    @Autowired
+    private final LyricsRepository lyricsRepository;
+    @Autowired
+    private final TopTracksRepository topTracksRepository;
 
-    @GetMapping("/test")
-    public String index(Model model) {
-        LOG.info("Index Page");
-        model.addAttribute("eventName", "music api 2023");
-        return "index1";
-    }
-
-    @GetMapping("/index")
-    public String getTracks(Model model) {
-
-       // Artist artist = new Artist(artistRepository.findAll().size(), "Nina Chuba");
-       // artistRepository.save(artist);
-       // Track track = new Track(artist, "Freitag", 10);
-      //  trackRepository.save(track);
-        LOG.info("Retrieving all artists.");
-       // List<Track> tracks = trackRepository.findAll();
+    @GetMapping("/artists")
+    public String getArtists(Model model) {
         List<Artist> artists = artistRepository.findAll();
         model.addAttribute("artists", artists);
-        return "index";
+        return "artists";
+    }
+    @GetMapping("/tracks")
+    public String getTracks(Model model) {
+        LOG.info("Retrieving all Tracks.");
+        List <Track> tracks = trackRepository.findAll();
+        model.addAttribute("tracks", tracks);
+        return "tracks";
+    }
+
+    @GetMapping("/tracks/charts")
+    public String getTracksCharts(Model model) {
+        LOG.info("Retrieving all Charts.");
+        List<TopTrack> topTracks = topTracksRepository.findAll();
+        model.addAttribute("topTracks", topTracks);
+        return "toptracks";
+    }
+
+    @GetMapping("/lyrics")
+    public String getLyricsTracks(Model model) {
+        LOG.info("Retrieving all available Lyrics.");
+        List<SongLyrics> lyrics = lyricsRepository.findAll();
+        model.addAttribute("availableLyrics", lyrics);
+        return "lyrics";
+    }
+    @GetMapping("/lyrics/{id}")
+    public String getLyrics(@PathVariable String id,  Model model) {
+        LOG.info("Retrieving Lyrics with id " + id );
+        List<SongLyrics> lyrics = lyricsRepository.findAll();
+        for (SongLyrics song : lyrics) {
+            if(song.getId() == Integer.parseInt(id))
+                model.addAttribute("song", song);
+        }
+        return "song";
     }
 
 }

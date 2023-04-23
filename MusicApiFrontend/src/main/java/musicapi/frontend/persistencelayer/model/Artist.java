@@ -23,6 +23,10 @@ public class Artist {
     @ReadOnlyProperty
     private Track track;
 
+    @DocumentReference(lazy = true, lookup = "{ 'artist' : ?#{#self._id} }")
+    @ReadOnlyProperty
+    private SongLyrics lyrics;
+
     public Artist(int id, String name) {
         this.id = id;
         this.name = name;

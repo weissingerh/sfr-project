@@ -2,6 +2,7 @@ package musicapi.persistencelayer.model;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
 public class Artist {
 
     @Id
@@ -22,6 +24,10 @@ public class Artist {
     @DocumentReference(lazy = true, lookup = "{ 'artist' : ?#{#self._id} }")
     @ReadOnlyProperty
     private Track track;
+
+    @DocumentReference(lazy = true, lookup = "{ 'artist' : ?#{#self._id} }")
+    @ReadOnlyProperty
+    private SongLyrics lyrics;
 
     public Artist(int id, String name) {
         this.id = id;

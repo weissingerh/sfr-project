@@ -8,6 +8,7 @@ import kafkamusicproducer.kafka.TopicProducer;
 import kafkamusicproducer.model.LastFmResponseChartsArtists;
 import kafkamusicproducer.model.LastFmResponseTrack;
 import kafkamusicproducer.model.LastFmResponseTracksObject;
+import kafkamusicproducer.model.Song;
 import kafkamusicproducer.serializers.AvroSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -52,12 +53,11 @@ public class MusicController {
         topicProducer.sendCharts(tracks.getArtists());
     }
 
-    @GetMapping("/lyrics")
-    public void send2() throws Exception {
-        String lyrics = new MusixmatchApi().getLyrics("As It Was", "Harry Styles");
-        System.out.println(lyrics);
-        byte[] serializedData = AvroSerializer.fromJsonToAvro(lyrics, musixmatchApi.schema);
-        topicProducer.sendLyrics(serializedData);
+    @GetMapping("/lyrics/{artist}/{title}")
+    public void sendLyrics(@PathVariable String artist, @PathVariable String title) throws Exception {
+        Song song = new MusixmatchApi().getLyrics(title, artist);
+//        byte[] serializedData = AvroSerializer.fromJsonToAvro(lyrics, musixmatchApi.schema);
+        topicProducer.sendLyrics(song);
     }
 
 

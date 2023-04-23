@@ -1,0 +1,18 @@
+<div th:switch="${artists}">
+    <h2 th:case="null">No Artists yet!</h2>
+    <div th:case="*">
+        <h2>Artists</h2>
+        <table>
+            <thead>
+            <tr>
+                <th style="alignment: left">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artist : ${artists}">
+                <td th:text="${artist.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
