@@ -9,16 +9,14 @@ import musicapi.frontend.persistencelayer.repository.TrackRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/api")
@@ -38,14 +36,14 @@ public class RestController {
 
     @GetMapping("/artists")
     public String getArtists(Model model) {
-        List<Artist> artists = artistRepository.findAll();
+        List<Artist> artists = artistRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
         model.addAttribute("artists", artists);
         return "artists";
     }
     @GetMapping("/tracks")
     public String getTracks(Model model) {
         LOG.info("Retrieving all Tracks.");
-        List <Track> tracks = trackRepository.findAll();
+        List<Track> tracks = trackRepository.findAll(Sort.by(Sort.Direction.ASC, "artist", "title", "average"));
         model.addAttribute("tracks", tracks);
         return "tracks";
     }
@@ -53,7 +51,7 @@ public class RestController {
     @GetMapping("/tracks/charts")
     public String getTracksCharts(Model model) {
         LOG.info("Retrieving all Charts.");
-        List<TopTrack> topTracks = topTracksRepository.findAll();
+        List<TopTrack> topTracks = topTracksRepository.findAll(Sort.by(Sort.Direction.ASC, "place"));
         model.addAttribute("topTracks", topTracks);
         return "toptracks";
     }
@@ -61,7 +59,7 @@ public class RestController {
     @GetMapping("/lyrics")
     public String getLyricsTracks(Model model) {
         LOG.info("Retrieving all available Lyrics.");
-        List<SongLyrics> lyrics = lyricsRepository.findAll();
+        List<SongLyrics> lyrics = lyricsRepository.findAll(Sort.by(Sort.Direction.ASC, "title"));
         model.addAttribute("availableLyrics", lyrics);
         return "lyrics";
     }

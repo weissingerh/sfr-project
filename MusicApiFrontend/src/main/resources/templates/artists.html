@@ -1,18 +1,44 @@
-<div th:switch="${artists}">
-    <h2 th:case="null">No Artists yet!</h2>
-    <div th:case="*">
-        <h2>Artists</h2>
-        <table>
-            <thead>
-            <tr>
-                <th style="alignment: left">Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="artist : ${artists}">
-                <td th:text="${artist.name}"></td>
-            </tr>
-            </tbody>
-        </table>
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MusicApi</title>
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">MusicApi</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/api/artists">Artists</a></li>
+                        <li><a href="/api/tracks">Tracks</a></li>
+                        <li><a href="/api/tracks/charts">Charts</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="content" th:switch="${artists}">
+        <h2 th:case="null">No Artists yet!</h2>
+        <div th:case="*">
+            <h2>Artists</h2>
+            <ul>
+                <li th:each="artist : ${artists}">
+                    <p th:text="${artist.name}"></p>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+</body>
+</html>
