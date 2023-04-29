@@ -1,8 +1,7 @@
-package musicapi.persistencelayer.model;
+package musicapi.frontend.persistencelayer.model;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -14,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
 public class Artist {
 
     @Id

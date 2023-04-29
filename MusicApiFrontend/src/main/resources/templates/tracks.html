@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MusicApi</title>
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">MusicApi</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/api/artists">Artists</a></li>
+                        <li><a href="/api/tracks">Tracks</a></li>
+                        <li><a href="/api/tracks/charts">Charts</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="content" th:switch="${tracks}">
+        <h2 th:case="null">No Tracks yet!</h2>
+        <div th:case="*">
+            <h2>Tracks</h2>
+            <table th:align="center">
+                <thead>
+                <tr>
+                    <!--                <th>Id</th>-->
+                    <th style="alignment: left">Title</th>
+                    <th style="alignment: left">Artist</th>
+                    <th style="alignment: left">Average</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="track : ${tracks}">
+                    <!--                <td th:text="${track.id}"></td>-->
+                    <td th:text="${track.title}"></td>
+                    <td th:text="${track.artist.name}"></td>
+                    <td th:text="${track.average}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

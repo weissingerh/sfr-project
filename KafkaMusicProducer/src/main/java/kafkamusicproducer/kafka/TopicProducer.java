@@ -38,11 +38,12 @@ public class TopicProducer {
     }
 
 
-    public void sendLyrics(byte[] message) {
+    public void sendLyrics(Object lyrics) {
+        kafkaTemplateObject.send(KafkaTopics.LYRICS.value, lyrics);
         //Serializer muss auf Avro umgestellt werden
-        final Producer<String, Object> producer =
-                new KafkaProducer<>(configHandler.loadAvroConfig());
-        producer.send(new ProducerRecord<>(KafkaTopics.LYRICS_HARRYSTYLES_ASITWAS.value, message));
-        producer.close();
+//        final Producer<String, Object> producer =
+//                new KafkaProducer<>(configHandler.loadAvroConfig());
+//        producer.send(new ProducerRecord<>(KafkaTopics.LYRICS.value, lyrics));
+//        producer.close();
     }
 }

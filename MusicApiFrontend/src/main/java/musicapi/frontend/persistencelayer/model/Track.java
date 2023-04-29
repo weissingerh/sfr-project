@@ -1,5 +1,6 @@
-package musicapi.persistencelayer.model;
+package musicapi.frontend.persistencelayer.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

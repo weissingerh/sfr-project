@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import musicapi.persistencelayer.model.SongLyrics;
 import musicapi.persistencelayer.model.TopTrack;
 import musicapi.persistencelayer.model.Track;
 import musicapi.persistencelayer.repository.ArtistRepository;
+import musicapi.persistencelayer.repository.LyricsRepository;
 import musicapi.persistencelayer.repository.TopTracksRepository;
 import musicapi.persistencelayer.repository.TrackRepository;
 import musicapi.persistencelayer.model.Artist;
@@ -32,7 +34,7 @@ public class KafkaListeners {
     private String topicCharts;
     @Value("${topic.name.charts.tracks.aggregated.average}")
     private String topicAggregatedAverage;
-    @Value("${topic.name.lyrics.harrystyles.asitwas}")
+    @Value("${topic.name.lyrics}")
     private String topicLyrics;
 
     @Autowired
@@ -41,6 +43,8 @@ public class KafkaListeners {
     private final TopTracksRepository topTrackRepository;
     @Autowired
     private final ArtistRepository artistRepository;
+    @Autowired
+    private final LyricsRepository lyricsRepository;
 
     // @KafkaListener(topics = "${topic.name.charts.artists}", groupId = "music")
     public void consumeCharts(ConsumerRecord<String, String> payload) throws JsonProcessingException {
@@ -106,13 +110,17 @@ public class KafkaListeners {
         trackRepository.save(track);
     }
 
-    @KafkaListener(topics = "${topic.name.lyrics.harrystyles.asitwas}", groupId = "music")
+    @KafkaListener(topics = "${topic.name.lyrics}", groupId = "music")
     public void consumeLyrics(ConsumerRecord<String, String> payload) throws JsonProcessingException {
         log.info("Topic: {}", topicLyrics);
-        log.info("key: {}", payload.key());
-        log.info("Headers: {}", payload.headers());
-        log.info("Partion: {}", payload.partition());
-        log.info("Value: {}", payload.value());
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map map = mapper.readValue(payload.value(), Map.class);
+        Artist artist = getArtistByName((String) map.get("artist"));
+
+        //todo check ob es das fing schon gibt
+        SongLyrics songLyrics = new SongLyrics(lyricsRepository.findAll().size(), (String) map.get("title"), artist, (String) map.get("lyrics"));
+        lyricsRepository.save(songLyrics);
 
 //        ObjectMapper mapper = new ObjectMapper();
 //        Map map = mapper.readValue(payload.value(), Map.class);
